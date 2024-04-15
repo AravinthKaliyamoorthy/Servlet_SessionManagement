@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Home</title>
+    <link rel="stylesheet" href="style/indexstyle.css">
+</head>
+<body>
+<h1>Welcome, <span id="username"></span>!</h1>
+<p>This is the home page. You are successfully logged in.</p>
+<button id="logout-btn">Logout</button>
+
+<script>
+    // Access username from session (implementation depends on your server-side logic)
+    const username = sessionStorage.getItem("username");
+    document.getElementById("username").textContent = username;
+
+    // Logout functionality using AJAX
+    const logoutBtn = document.getElementById("logout-btn");
+    logoutBtn.addEventListener("click", () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "./logout", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) { // Check for successful response (logout successful)
+                alert("You have been logged out.");
+                // Redirect to login page
+                window.location.href = "loginform.html";
+            } else {
+                alert("Logout failed. Please try again.");
+            }
+        };
+        xhr.send();
+    });
+</script>
+</body>
+</html>
